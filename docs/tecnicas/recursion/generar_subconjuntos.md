@@ -2,7 +2,7 @@
 
 Veamos cómo generar todos los subconjuntos de un conjunto dado. 
 
-Supongamos por simplicidad que tenemos el conjunto cuyos elementos son los numeros del 1 al 3: $\{1, 2, 3\} $. Luego sus subconjuntos son $\emptyset, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1, 3\}, \{2, 3\}, \{1, 2, 3\}$.
+Supongamos por simplicidad que tenemos el conjunto cuyos elementos son los numeros del 1 al 3: $\{1, 2, 3\}$. Luego sus subconjuntos son $\emptyset, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1, 3\}, \{2, 3\}, \{1, 2, 3\}$.
 
 Para ver la recursión hay que pensar en un argumento que nos proporcione una información útil. En este caso, los argumentos serán; el elemento $i$ no forma parte del subconjunto y el subconjunto que estamos generando. El caso base es cuando llegamos a revisar si añadir el $0$ que como no está en el conjunto original podemos imprimir el subconjunto formado.
 
