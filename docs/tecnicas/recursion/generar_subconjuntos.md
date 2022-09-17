@@ -2,9 +2,11 @@
 
 Veamos cómo generar todos los subconjuntos de un conjunto dado. 
 
-Supongamos por simplicidad que tenemos un conjunto de elementos \\( \\{1, 2, 3\\} \\), luego sus subconjuntos son \\( \emptyset, \\{1\\}, \\{2\\}, \\{3\\}, \\{1, 2\\}, \\{1, 3\\}, \\{2, 3\\}, \\{1, 2, 3\\} \\).
+Supongamos por simplicidad que tenemos el conjunto cuyos elementos son los numeros del 1 al 3: $\{1, 2, 3\} $. Luego sus subconjuntos son $\emptyset, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1, 3\}, \{2, 3\}, \{1, 2, 3\}$.
 
-Para ver la recursión hay que pensar en un argumento que nos proporcione una información útil. En este caso, los argumentos serán; el elemento que estamos viendo si forma o no parte del subconjunto y el subconjunto que estamos generando. El caso base es cuando llegamos a revisar si añadir el \\( 0 \\) que como no está en el conjunto original podemos imprimir el subconjunto. 
+Para ver la recursión hay que pensar en un argumento que nos proporcione una información útil. En este caso, los argumentos serán; el elemento $i$ no forma parte del subconjunto y el subconjunto que estamos generando. El caso base es cuando llegamos a revisar si añadir el $0$ que como no está en el conjunto original podemos imprimir el subconjunto formado.
+
+Asi en cada llamada lo que hace la recursion es bifurar en dos mundos paralelos: uno en donde se añade el elemento que estamos viendo al subconjunto y otro en el que no. 
 
 ## Código
 
@@ -24,18 +26,7 @@ all_subset(3, [])
 El código en C++ utilizando `vector` puede ser:
 
 ```cpp
-~#include <iostream>
-~#include <vector>
-~using namespace std;
-~
-~void print_subset(vector<int> subset) {
-~  for (int i = 0; i < subset.size(); i++) {
-~    cout << subset[i] << " ";
-~  }
-~  cout << endl;
-~}
-~
-void all_subset(int n, vector<int> subset) {
+void all_subset(int n, vector<int>& subset) {
   if (n == 0) {
     print_subset(subset);
   }
@@ -45,46 +36,6 @@ void all_subset(int n, vector<int> subset) {
     all_subset(n-1, subset);
   }
 }
-
-~int main() {
-  all_subset(3, vector<int>());
-~  return 0;
-~}
 ```
 
-Un problema con esta implementación es que C++ cuando utiliza un vector como argumento, en vez de utilizar la misma dirección, lo copia. Por lo que se está utilizando mucha memoria.
-
-### Optimización
-En C++ podemos optimizar la memoria utilizando tan solo un vector. Para cada vez que termine una llamada a `all_subset` se le elimina el último elemento que se le añadió.
-
-```cpp
-~#include <iostream>
-~#include <vector>
-~using namespace std;
-~
-vector<int> subset;
-
-~void print_subset() {
-~  for (int i = 0; i < subset.size(); i++) {
-~    cout << subset[i] << " ";
-~  }
-~  cout << endl;
-~}
-~
-void all_subset(int n) {
-  if (n == 0) {
-    print_subset();
-  }
-  else {
-    all_subset(n-1);
-    subset.push_back(n);
-    all_subset(n-1);
-    subset.pop_back();
-  }
-}
-
-~int main() {
-  all_subset(3);
-~  return 0;
-~}
-```
+Notese que se esta ocupando `vector<int>& subset` comoa argumento. Esto hace que no se tenga que copiar el vector en cada llamada, sino que se pasa por referencia y se modifica el mismo vector.
